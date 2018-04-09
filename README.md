@@ -23,9 +23,9 @@ Hello world
 To chain functions follow the [function director pattern](https://github.com/openfaas/faas/blob/master/guide/chaining_functions.md#function-director-pattern). Use `gateway` explicitly as the hostname of the API gateway when calling a function. For example,
 
 ```javascript
-request.get('http://gateway:8080/function/func1', (e, r, b) => {
-
-});
+request.get('http://gateway:8080/function/world').pipe(request.post('http://gateway:8080/function/hello', (e, r, b) => {
+    callback(undefined, b);
+}));
 ``` 
 
 I made the mistake of referring to the hostname where my API gateway is deployed (`localhost`), and that ended up in the OpenFaaS being stuck with the function call.
