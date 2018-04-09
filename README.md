@@ -10,4 +10,12 @@ $ curl -s http://127.0.0.1:8080/function/world | curl -sX POST http://127.0.0.1:
 Hello world
 ```
 
-However, chaining the functions following the [function director pattern](https://github.com/openfaas/faas/blob/master/guide/chaining_functions.md#function-director-pattern) does not seem to work. The function seems to _hang_ and CPU utilization of docker goes up drastically.
+To chain functions follow the [function director pattern](https://github.com/openfaas/faas/blob/master/guide/chaining_functions.md#function-director-pattern). Use `gateway` explicitly as the hostname of the API gateway when calling a function. For example,
+
+```javascript
+request.get('http://gateway:8080/function/func1', (e, r, b) => {
+
+});
+``` 
+
+I made the mistake of referring to the hostname where my API gateway is deployed (`localhost`), and that ended up in the OpenFaaS being stuck with the function call.
